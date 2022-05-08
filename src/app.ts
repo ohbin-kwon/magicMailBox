@@ -26,7 +26,8 @@ app.post('satisfaction', (req, res) => {
 
 // 시간에 따른 keyword_satisfaction db업데이트
 
-// todo: throw한 에러를 handling 하는 error handler
+// todo: throw한 에러를 handling 하는 error handler, nest와 같이 에러를 next를 사옹하지 않고도 handling이 가능할까?
+// todo: 필요하다면 cqrs를 이용해 mutation과 의존성이 있는 함수를 분리
 
 app.listen(PORT, () => {
 	console.log(`App listening at PORT: ${PORT}`)
