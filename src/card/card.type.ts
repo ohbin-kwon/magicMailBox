@@ -1,25 +1,18 @@
 import { makeCardReqDto } from "./card.dto";
 
-export type EvaluatedCard = {
+export type Card = {
   id: number;
   question: string;
   answerId: number;
   satisfaction?: boolean;
 };
 
-export type UnevaluatedCard = {
-  id: number;
-  question: string;
-  answerId: number;
-};
-
 export declare interface ICardService{
-  getAllEvaluatedCard: () => Promise<UnevaluatedCard[]>
+  getAllCard: () => Promise<Card[]>
   makeCard: (reqDto: makeCardReqDto) => Promise<string>
 }
 
 export declare interface ICardRepository {
-  getAllUnevaluatedCard: () => Promise<UnevaluatedCard[]>
-  getAllEvaluatedCard: () => Promise<EvaluatedCard[]>
-  makeCard: (newCard: UnevaluatedCard) => Promise<void>
+  getAllCard: () => Promise<Card[]>
+  makeCard: (newCard: Card) => Promise<void>
 }

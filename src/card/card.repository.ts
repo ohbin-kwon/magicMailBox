@@ -1,23 +1,18 @@
 import * as fs from 'fs';
 import path from 'path'
-import { EvaluatedCard, ICardRepository, UnevaluatedCard } from './card.type';
+import { Card, ICardRepository } from './card.type';
 
 class FsCardRepository implements ICardRepository {
-  public async getAllUnevaluatedCard(): Promise<UnevaluatedCard[]> {
-    const json = fs.readFileSync(path.join(__dirname + '/unevaluatedCard.json'), {encoding: 'utf-8'})
-    return JSON.parse(json) as UnevaluatedCard[]
+  public async getAllCard(): Promise<Card[]> {
+    const json = fs.readFileSync(path.join(__dirname + '/card.json'), {encoding: 'utf-8'})
+    return JSON.parse(json) as Card[]
   }
 
-  public async getAllEvaluatedCard(): Promise<EvaluatedCard[]> {
-    const json = fs.readFileSync(path.join(__dirname + '/evaluatedCard.json'), {encoding: 'utf-8'})
-    return JSON.parse(json) as EvaluatedCard[]
-  }
-
-  public async makeCard(newCard: UnevaluatedCard): Promise<void> {
-    const cardList = await this.getAllUnevaluatedCard()
+  public async makeCard(newCard: Card): Promise<void> {
+    const cardList = await this.getAllCard()
     cardList.push(newCard)
     const data = JSON.stringify(cardList)
-    fs.writeFileSync(path.join(__dirname + '/unevaluatedCard.json'), data, {encoding: 'utf-8'})
+    fs.writeFileSync(path.join(__dirname + '/card.json'), data, {encoding: 'utf-8'})
   }
 }
 
