@@ -11,7 +11,13 @@ class CardService implements ICardService{
     return await fsCardRepository.getAllCard()
   }
 
-  public async makeCard(reqDto: makeCardReqDto): Promise<string> {
+  public async getCard(cardId: string): Promise<Card> {
+    const intCardId = Number(cardId)
+    const card = await fsCardRepository.getCard(intCardId)
+    return card
+  }
+
+  public async makeCard(reqDto: makeCardReqDto): Promise<void> {
     const AllAnswer: Map<string, string> = await fsAnswerRepository.getAllAnswer()
     const random = +Math.floor(Math.random() * AllAnswer.size).toString() + 1
 
@@ -25,8 +31,9 @@ class CardService implements ICardService{
     const answer = AllAnswer.get(String(random))
     if(!answer) throw new Error('answer is not exist')
     
-    return answer
   }
+
+
 
   public async evaluateCard(reqDto: evaluateCardReqDto): Promise<Card> {
     const unevaluatedCards = await fsCardRepository.getAllCard()

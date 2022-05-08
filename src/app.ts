@@ -12,8 +12,10 @@ app.get('/', wrap(async (req, res, next) => {
   throw new Error('fsadfas')
 }))
 // todo: 현재는 evalutated와 undevaluated를 나누어서 도메인을 관리하는데, 이를 어떻게 할지 
-// evaluated card들의 feed 를 가져오는 라우터
-app.get('/card/list', wrap(cardController.getAllCardController))
+// feed 를 가져오는 라우터(모든 카드를 가져옴)
+app.get('/card/feed', wrap(cardController.getAllCardController))
+// 하나의 card를 가져오는 라우터
+app.get('/card/:id', wrap(cardController.getCardController))
 // unevaluated card를 생성하는 라우터
 app.post('/card/make', wrap(cardController.makeCardController))
 // 카드에 대한 유저의 evaluate

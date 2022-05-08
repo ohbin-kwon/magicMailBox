@@ -8,6 +8,14 @@ class FsCardRepository implements ICardRepository {
     return JSON.parse(json) as Card[]
   }
 
+  public async getCard(cardId: number): Promise<Card> {
+    const json = fs.readFileSync(path.join(__dirname + '/card.json'), {encoding: 'utf-8'})
+    const parsingJson = JSON.parse(json) as Card[]
+
+    const card = parsingJson.filter(card => card.id === cardId)[0]
+    return card
+  }
+
   public async makeCard(newCard: Card): Promise<void> {
     const cardList = await this.getAllCard()
     cardList.push(newCard)

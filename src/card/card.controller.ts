@@ -13,13 +13,22 @@ class CardController {
     return res.send(response);
   }
 
+  public async getCardController(
+    req: Request,
+    res: Response,
+  ): Promise<Response> {
+    const cardId = req.params.id
+    const response = await cardService.getCard(cardId);
+    return res.send(response);
+  }
+
   public async makeCardController(
     req: Request,
     res: Response,
   ): Promise<Response> {
     const reqDto: makeCardReqDto = req.body
-    const answer = await cardService.makeCard(reqDto);
-    return res.send(answer);
+    await cardService.makeCard(reqDto);
+    return res.send("ok");
   }
 
   public async evaluateCardController(
