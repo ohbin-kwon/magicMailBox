@@ -3,6 +3,7 @@ import FsAnswerRepository from "./answer/answer.repository";
 import domain from "../domain/card"
 import { evaluateCardReqDto, makeCardReqDto } from "./card.dto";
 import { Card, ICardService } from "./card.type";
+import { CustomError } from "src/customError";
 const fsCardRepository =  new FsCardRepository()
 const fsAnswerRepository = new FsAnswerRepository()
 
@@ -27,16 +28,13 @@ class CardService implements ICardService{
 
     const newCard = domain.makeCard(id, question, answerId)
     await fsCardRepository.makeCard(newCard)
-
-    const answer = AllAnswer.get(String(random))
-    if(!answer) throw new Error('answer is not exist')
-    
   }
 
   public async evaluateCard(reqDto: evaluateCardReqDto): Promise<void> {
     const targetCard = await fsCardRepository.getCard(reqDto.cardId)
     if(targetCard.satisfaction !== undefined){
-      throw new Error('already evaluated')
+      const error = new Error('already evaluated')
+      throw error
     }
 
     const satisfaction = reqDto.satisfaction
