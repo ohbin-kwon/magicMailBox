@@ -19,12 +19,7 @@ app.get('/card/:id', wrap(cardController.getCardController))
 // unevaluated card를 생성하는 라우터
 app.post('/card/make', wrap(cardController.makeCardController))
 // 카드에 대한 유저의 evaluate
-app.post('satisfaction', (req, res) => {
-  // req: boolean
-  // 만족도 조사
-  // repo : card update / satisfaction
-  // res: 200 ok
-})
+app.patch('/card/evaluate', wrap(cardController.evaluateCardController))
 
 // 시간에 따른 keyword_satisfaction db업데이트
 

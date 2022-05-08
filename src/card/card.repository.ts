@@ -22,6 +22,14 @@ class FsCardRepository implements ICardRepository {
     const data = JSON.stringify(cardList)
     fs.writeFileSync(path.join(__dirname + '/card.json'), data, {encoding: 'utf-8'})
   }
+
+  public async changeCard(changedCard: Card) : Promise<void> {
+    const cardList = await this.getAllCard()
+    const newCardList = cardList.filter(card => card.id !== changedCard.id)
+    newCardList.push(changedCard)
+    const data = JSON.stringify(newCardList)
+    fs.writeFileSync(path.join(__dirname + '/card.json'), data, {encoding: 'utf-8'})
+  }
 }
 
 export default FsCardRepository

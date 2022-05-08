@@ -33,15 +33,16 @@ class CardService implements ICardService{
     
   }
 
-
-
-  public async evaluateCard(reqDto: evaluateCardReqDto): Promise<Card> {
-    const unevaluatedCards = await fsCardRepository.getAllCard()
-    const targetCard = unevaluatedCards.filter(card => card.id === reqDto.cardId)[0]
+  public async evaluateCard(reqDto: evaluateCardReqDto): Promise<void> {
+    const targetCard = await fsCardRepository.getCard(reqDto.cardId)
+    if(targetCard.satisfaction !== undefined){
+      throw new Error('already evaluated')
+    }
 
     const satisfaction = reqDto.satisfaction
     const evaluatedCard = domain.evaluateCard(targetCard, satisfaction)
-    return evaluatedCard
+    
+    await fsCardRepository.changeCard(evaluatedCard)
   }
 }
 
