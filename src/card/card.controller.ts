@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { makeCardReqDto } from './card.dto';
+import { evaluateCardReqDto, makeCardReqDto } from './card.dto';
 import CardService from './card.service';
 
 const cardService = new CardService();
@@ -18,7 +18,16 @@ class CardController {
     res: Response,
   ): Promise<Response> {
     const reqDto: makeCardReqDto = req.body
-    await cardService.makeCard(reqDto);
+    const answer = await cardService.makeCard(reqDto);
+    return res.send(answer);
+  }
+
+  public async evaluateCardController(
+    req: Request,
+    res: Response,
+  ): Promise<Response> {
+    const reqDto: evaluateCardReqDto = req.body
+    await cardService.evaluateCard(reqDto);
     return res.send("ok");
   }
 }
