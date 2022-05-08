@@ -131,4 +131,3 @@ dist
 
 # custom
 src/card/*.json
-src/card/answer/*.json
