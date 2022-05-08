@@ -8,20 +8,18 @@ import { CustomError } from '../customError';
  * @param err Error caught by Express.js
  * @param req Request object provided by Express
  * @param res Response object provided by Express
- * @param next NextFunction function provided by Express
  */
 function handleError(
   err: TypeError | CustomError,
   req: Request,
   res: Response,
-  next: NextFunction
 ) {
   let customError = err;
 
   if (!(err instanceof CustomError)) {
     customError = new CustomError(
       '알수 없는 문제 입니다. 서버관리자를 호출해 주세요.',
-      500
+      500,
     );
   }
 
@@ -29,7 +27,7 @@ function handleError(
   // the default error-handler. However, make sure you are sending a
   // response to client to prevent memory leaks in case you decide to
   // NOT use, like in this example, the NextFunction .i.e., next(new Error())
-  console.log(customError)
+  console.log(customError);
   res.status((customError as CustomError).status).send(customError);
 }
 

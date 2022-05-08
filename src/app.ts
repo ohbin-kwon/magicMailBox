@@ -1,11 +1,11 @@
-import express, { NextFunction, Request, Response } from 'express'
+import express from 'express'
 import CardController from './card/card.controller'
 import wrap from 'express-async-error-wrapper'
 import handleError from './middleware/errorHandler'
 import { CustomError } from './customError'
 
 const app = express()
-const PORT = 3000
+const PORT = 3001
 app.use(express.json())
 
 const cardController = new CardController()

@@ -3,7 +3,6 @@ import FsAnswerRepository from "./answer/answer.repository";
 import domain from "../domain/card"
 import { evaluateCardReqDto, makeCardReqDto } from "./card.dto";
 import { Card, ICardService } from "./card.type";
-import { CustomError } from "src/customError";
 const fsCardRepository =  new FsCardRepository()
 const fsAnswerRepository = new FsAnswerRepository()
 
