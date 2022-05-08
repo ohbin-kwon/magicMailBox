@@ -6,11 +6,16 @@ export type Card = {
   answerId: number;
   satisfaction?: boolean;
 };
-
+export type ResCard = {
+  id: number;
+  question: string;
+  answer: string;
+  satisfaction?: boolean;
+}
 // 추후 cqrs를 위한 description
 export declare interface ICardService{
-  getAllCard: () => Promise<Card[]>
-  getCard: (cardId: string) => Promise<Card>
+  getAllCard: () => Promise<ResCard[]>
+  getCard: (cardId: string) => Promise<ResCard>
   makeCard: (reqDto: makeCardReqDto) => Promise<void> // mutation 발생
   evaluateCard: (reqDto: evaluateCardReqDto) => Promise<void> // mutation 발생
 }
