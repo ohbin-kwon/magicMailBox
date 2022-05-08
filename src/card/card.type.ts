@@ -1,25 +1,23 @@
-import { makeCardReqDto } from "./card.dto";
+import { evaluateCardReqDto, makeCardReqDto } from "./card.dto";
 
-export type EvaluatedCard = {
+export type Card = {
   id: number;
   question: string;
   answerId: number;
   satisfaction?: boolean;
 };
 
-export type UnevaluatedCard = {
-  id: number;
-  question: string;
-  answerId: number;
-};
-
+// 추후 cqrs를 위한 description
 export declare interface ICardService{
-  getAllUnevaluatedCard: () => Promise<UnevaluatedCard[]>
-  makeCard: (reqDto: makeCardReqDto) => Promise<string>
+  getAllCard: () => Promise<Card[]>
+  getCard: (cardId: string) => Promise<Card>
+  makeCard: (reqDto: makeCardReqDto) => Promise<void> // mutation 발생
+  evaluateCard: (reqDto: evaluateCardReqDto) => Promise<void> // mutation 발생
 }
 
 export declare interface ICardRepository {
-  getAllUnevaluatedCard: () => Promise<UnevaluatedCard[]>
-  getAllEvaluatedCard: () => Promise<EvaluatedCard[]>
-  makeCard: (newCard: UnevaluatedCard) => Promise<void>
+  getAllCard: () => Promise<Card[]>
+  getCard: (cardId: number) => Promise<Card>
+  makeCard: (newCard: Card) => Promise<void> // mutation 발생
+  changeCard: (changedCard: Card) => Promise<void> // mutation 발생
 }

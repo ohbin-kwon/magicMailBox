@@ -1,31 +1,46 @@
 import FsCardRepository from "./card.repository";
 import FsAnswerRepository from "./answer/answer.repository";
 import domain from "../domain/card"
-import { makeCardReqDto } from "./card.dto";
-import { ICardService, UnevaluatedCard } from "./card.type";
+import { evaluateCardReqDto, makeCardReqDto } from "./card.dto";
+import { Card, ICardService } from "./card.type";
+import { CustomError } from "src/customError";
 const fsCardRepository =  new FsCardRepository()
 const fsAnswerRepository = new FsAnswerRepository()
 
 class CardService implements ICardService{
-  public async getAllUnevaluatedCard(): Promise<UnevaluatedCard[]> {
-    return await fsCardRepository.getAllUnevaluatedCard()
+  public async getAllCard(): Promise<Card[]> {
+    return await fsCardRepository.getAllCard()
   }
 
-  public async makeCard(reqDto: makeCardReqDto): Promise<string> {
+  public async getCard(cardId: string): Promise<Card> {
+    const intCardId = Number(cardId)
+    const card = await fsCardRepository.getCard(intCardId)
+    return card
+  }
+
+  public async makeCard(reqDto: makeCardReqDto): Promise<void> {
     const AllAnswer: Map<string, string> = await fsAnswerRepository.getAllAnswer()
     const random = +Math.floor(Math.random() * AllAnswer.size).toString() + 1
 
-    const id = (await fsCardRepository.getAllUnevaluatedCard()).length + 1
+    const id = (await fsCardRepository.getAllCard()).length + 1
     const question = reqDto.question
     const answerId = random
 
     const newCard = domain.makeCard(id, question, answerId)
     await fsCardRepository.makeCard(newCard)
+  }
 
-    const answer = AllAnswer.get(String(random))
-    if(!answer) throw new Error('answer is not exist')
+  public async evaluateCard(reqDto: evaluateCardReqDto): Promise<void> {
+    const targetCard = await fsCardRepository.getCard(reqDto.cardId)
+    if(targetCard.satisfaction !== undefined){
+      const error = new Error('already evaluated')
+      throw error
+    }
+
+    const satisfaction = reqDto.satisfaction
+    const evaluatedCard = domain.evaluateCard(targetCard, satisfaction)
     
-    return answer
+    await fsCardRepository.changeCard(evaluatedCard)
   }
 }
 
