@@ -1,4 +1,4 @@
-import { EvaluatedCard, UnevaluatedCard } from "src/global"
+import { EvaluatedCard, UnevaluatedCard } from "src/card/card.type"
 
 export function makeCard (id: number, question: string, answerId: number): UnevaluatedCard {
   const newCard: UnevaluatedCard = { id, question, answerId }

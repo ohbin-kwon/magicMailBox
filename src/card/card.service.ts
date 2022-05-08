@@ -2,11 +2,11 @@ import FsCardRepository from "./card.repository";
 import FsAnswerRepository from "./answer/answer.repository";
 import domain from "../domain/card"
 import { makeCardReqDto } from "./card.dto";
-import { UnevaluatedCard } from "src/global";
+import { ICardService, UnevaluatedCard } from "./card.type";
 const fsCardRepository =  new FsCardRepository()
 const fsAnswerRepository = new FsAnswerRepository()
 
-class CardService {
+class CardService implements ICardService{
   public async getAllUnevaluatedCard(): Promise<UnevaluatedCard[]> {
     return await fsCardRepository.getAllUnevaluatedCard()
   }
@@ -23,7 +23,7 @@ class CardService {
     await fsCardRepository.makeCard(newCard)
 
     const answer = AllAnswer.get(String(random))
-    if(!answer) throw new Error('dfddf')
+    if(!answer) throw new Error('answer is not exist')
     
     return answer
   }
