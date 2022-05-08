@@ -3,5 +3,6 @@ export interface makeCardReqDto {
 }
 
 export interface evaluateCardReqDto {
+  cardId: number;
   satisfaction: boolean;
 }

@@ -1,14 +1,14 @@
 import FsCardRepository from "./card.repository";
 import FsAnswerRepository from "./answer/answer.repository";
 import domain from "../domain/card"
-import { makeCardReqDto } from "./card.dto";
-import { ICardService, UnevaluatedCard } from "./card.type";
+import { evaluateCardReqDto, makeCardReqDto } from "./card.dto";
+import { EvaluatedCard, ICardService } from "./card.type";
 const fsCardRepository =  new FsCardRepository()
 const fsAnswerRepository = new FsAnswerRepository()
 
 class CardService implements ICardService{
-  public async getAllUnevaluatedCard(): Promise<UnevaluatedCard[]> {
-    return await fsCardRepository.getAllUnevaluatedCard()
+  public async getAllEvaluatedCard(): Promise<EvaluatedCard[]> {
+    return await fsCardRepository.getAllEvaluatedCard()
   }
 
   public async makeCard(reqDto: makeCardReqDto): Promise<string> {
@@ -26,6 +26,15 @@ class CardService implements ICardService{
     if(!answer) throw new Error('answer is not exist')
     
     return answer
+  }
+
+  public async evaluateCard(reqDto: evaluateCardReqDto): Promise<EvaluatedCard> {
+    const unevaluatedCards = await fsCardRepository.getAllUnevaluatedCard()
+    const targetCard = unevaluatedCards.filter(card => card.id === reqDto.cardId)[0]
+    
+    const satisfaction = reqDto.satisfaction
+    const evaluatedCard = domain.evaluateCard(targetCard, satisfaction)
+    return evaluatedCard
   }
 }
 

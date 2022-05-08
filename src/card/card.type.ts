@@ -14,7 +14,7 @@ export type UnevaluatedCard = {
 };
 
 export declare interface ICardService{
-  getAllUnevaluatedCard: () => Promise<UnevaluatedCard[]>
+  getAllEvaluatedCard: () => Promise<UnevaluatedCard[]>
   makeCard: (reqDto: makeCardReqDto) => Promise<string>
 }
 

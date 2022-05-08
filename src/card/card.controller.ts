@@ -9,7 +9,7 @@ class CardController {
     req: Request,
     res: Response,
   ): Promise<Response> {
-    const response = await cardService.getAllUnevaluatedCard();
+    const response = await cardService.getAllEvaluatedCard();
     return res.send(response);
   }
 
