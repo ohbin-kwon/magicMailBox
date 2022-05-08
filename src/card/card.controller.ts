@@ -28,7 +28,7 @@ class CardController {
   ): Promise<Response> {
     const reqDto: makeCardReqDto = req.body
     await cardService.makeCard(reqDto);
-    return res.send("ok");
+    return res.status(201).send("ok");
   }
 
   public async evaluateCardController(
@@ -37,7 +37,7 @@ class CardController {
   ): Promise<Response> {
     const reqDto: evaluateCardReqDto = req.body
     await cardService.evaluateCard(reqDto);
-    return res.send("ok");
+    return res.status(201).send("ok");
   }
 }
 
